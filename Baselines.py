@@ -93,7 +93,7 @@ def Base_val(model, test_loader):
 
 if __name__ == '__main__':
     print(args)
-    set_seed(2023)
+    set_seed(args.seed)
     os.environ['CUDA_VISIBLE_DEVICES'] = args.cuda_num
     train_loader, test_loader, num_class = load_cifar(args)
 
