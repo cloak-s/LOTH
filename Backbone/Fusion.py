@@ -103,7 +103,7 @@ class Norm_fusion(nn.Module):  # FFL fusion
         return embs, out
 
 
-class MECA_fusion(nn.Module):
+class DECA_fusion(nn.Module):
     def __init__(self, channel, num_class, layer, high=4):
         super(MECA_fusion, self).__init__()
         self.relu = nn.ReLU()
