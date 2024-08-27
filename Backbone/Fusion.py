@@ -33,6 +33,35 @@ class EML_fusion(nn.Module):
         return feats, out
 
 
+class KFD_Fusion(nn.Module):
+    def __init__(self, channel, layer, num_class):
+        super(KFD_Fusion, self).__init__()
+        hidden = channel // 16
+        self.avg_pool = nn.AdaptiveAvgPool2d(1)
+        self.FC1 = nn.Linear(channel, hidden)
+        self.BN = nn.BatchNorm1d(hidden)
+        self.FC2 = nn.Linear(hidden, layer)
+        self.CONV = nn.Conv2d(channel, channel, bias=False, kernel_size=1)
+        self.BN2 = nn.BatchNorm2d(channel)
+        self.classifier = nn.Linear(channel, num_class)
+
+    def forward(self, feats):
+        ref = sum(feats)
+        ref = self.avg_pool(ref)
+        ref = ref.view(ref.size(0), -1)
+        att = self.FC2(F.relu(self.BN(self.FC1(ref))))
+        att = F.softmax(att, dim=-1)
+        fuse_feat = feats[0] * att[:, 0].view(-1, 1, 1, 1)
+        for i in range(1, len(feats)):
+            fuse_feat += feats[i] * att[:, i].view(-1, 1, 1, 1)
+        fuse_feat = F.relu(self.BN2(self.CONV(fuse_feat)))
+        # fuse_feat = self.avg_pool(fuse_feat)
+        out = self.avg_pool(fuse_feat)
+        out = out.view(out.size(0), -1)
+        out = self.classifier(out)
+        return fuse_feat, out
+        
+
 class Norm_fusion(nn.Module):  # FFL fusion
     def __init__(self, channel, num_class, layer, before_relu=False):
         super(Norm_fusion, self).__init__()
