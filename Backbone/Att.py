@@ -174,9 +174,11 @@ class MECA_layer(nn.Module):
         x_l = self.conv_l(x_l.transpose(-1, -2)).transpose(-1, -2)
         x_l = x_l.view(batch, c, h, w)
 
-        xlg = x_l + x_g
-        wei = self.sigmoid(xlg)
-        return x * wei
+        x_lg = 2 * (1-self.sigmoid(self.gamma)) * x_l + 2 * self.sigmoid(self.gamma) * x_g
+        # x_lg = x_l + x_g
+        
+        weight = self.sigmoid(x_lg)
+        return x * weight
 
 
 class h_sigmoid(nn.Module):
