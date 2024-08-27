@@ -7,6 +7,31 @@ from thop import profile, clever_format
 from Backbone.Att import ECA_layer, SCAN_Layer, DECA_layer, JK_att, MCS_att
 
 
+class EML_fusion(nn.Module):
+    def __init__(self, channel, num_class, layer):
+        super(EML_fusion, self).__init__()
+        self.avg_pool = nn.AdaptiveAvgPool2d((1, 1))
+        self.conv = nn.Conv2d(channel * layer, channel, kernel_size=1, groups=1, bias=False)
+        self.bn = nn.BatchNorm2d(channel)
+        self.classifier = nn.Linear(channel, num_class)
+
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+            elif isinstance(m, nn.BatchNorm2d):
+                m.weight.data.fill_(1)
+                m.bias.data.zero_()
+
+    def forward(self, feats):
+        feats = [self.avg_pool(feat) for feat in feats]
+        feats = torch.cat(feats, dim=1)  # concatenate
+        feats = self.bn(self.conv(feats))
+        out = F.relu(feats)
+        out = out.view(out.size(0), -1)
+        out = self.classifier(out)
+        return feats, out
+
 
 class Norm_fusion(nn.Module):  # FFL fusion
     def __init__(self, channel, num_class, layer, before_relu=False):
