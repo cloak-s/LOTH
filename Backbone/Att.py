@@ -146,7 +146,7 @@ class ECA_layer(nn.Module):
 
 
 
-class MECA_layer(nn.Module):
+class DECA_layer(nn.Module):
     def __init__(self, channel, high, gama=2, b=1):
         super(MECA_layer, self).__init__()
         t = int(abs((math.log(channel, 2) + b) / gama))
