@@ -6,6 +6,7 @@ Live on the Hump
 
 If you find our work useful, please consider citing it:
 
+```bibtex
 @inproceedings{wang2024live,
   title={Live on the Hump: Self Knowledge Distillation via Virtual Teacher-Students Mutual Learning},
   author={Wang, Shuang and Hao, Pengyi and Wu, Fuli and Bai, Cong},
