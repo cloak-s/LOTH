@@ -1,5 +1,4 @@
-# LOTH
-Live on the Hump: Self Knowledge Distillation via Virtual Teacher-Students Mutual Learning.
+# Live on the Hump: Self Knowledge Distillation via Virtual Teacher-Students Mutual Learning.
 
 ![Overview of LOTH](LOTH-MM.png)
 
