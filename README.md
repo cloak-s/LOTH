@@ -4,6 +4,8 @@ Live on the Hump: Self Knowledge Distillation via Virtual Teacher-Students Mutua
 ![Overview of LOTH](LOTH-MM.png)
 
 
+This work proposes a novel self knowledge distillation framework named LOTH via virtual teacher-students mutual learning. LOTH constructs auxiliary exits hierarchically, which views each exit as a student and incorporates knowledge form auxiliary exits to build a knowledgeable virtual teacher. The bidirectional mutual learning between virtual teacher and students contributes significantly to the capabilities of multi-exits learning with few training overhead.
+
 
 
 
