@@ -1,10 +1,11 @@
 # LOTH
-Live on the Hump
+Live on the Hump: Self Knowledge Distillation via Virtual Teacher-Students Mutual Learning.
+
 
 
 ## 📚 Citation
 
-If you find our work useful, please consider citing it:
+If you find this project useful in your research, please cite:
 
 ```bibtex
 @inproceedings{wang2024live,
